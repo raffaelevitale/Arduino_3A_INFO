@@ -7,7 +7,7 @@
 #define LED 13
 
 // dato da trasmettere
-char dato = 'A';
+char dato = 'A'; //65 in tabella ascii
 
 // struttura trama
 int N = 8;
@@ -47,7 +47,7 @@ void TxByte(char dato)
 		{
 		case 0:
 			statoFuturo = 1;
-			parita = false;
+			parita = false;  //per invertire la parità, calcolo la parità dispari
 			break;
 
 		case 1:
@@ -58,7 +58,11 @@ void TxByte(char dato)
 			break;
 
 		case 2:
-			bit = ((dato & (1 << i)) != 0);
+			bit = ((dato & (1 << i)) != 0); 
+			/*
+				Mi permette di andare a shiftare le posizioni di n posizionie, in base a quanto è scritto all'intero della i, 
+				poi una volta shiftato faccio la AND con il dato e poi vedo se è == a 0 vuol dire che il numero era 0, se inceve esce != 0, non sarà 0
+			*/
 			digitalWrite(LED, bit);
 			delay(Tb);
 			parita ^= bit;
@@ -74,7 +78,7 @@ void TxByte(char dato)
 			break;
 
 		case 3:
-			if (P == 'O')
+			if (P == 'O')  //Dispari
 				parita = !parita;
 			digitalWrite(LED, parita);
 			delay(Tb);
